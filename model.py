@@ -53,7 +53,28 @@ class PositionalEncoding(nn.Module):
         pe = pe.unsqueeze(0) # tensor of length (1, seq_len, d_model) # here 1 is the place holder for batch size. 
         # if batch size is 4 i.e. 4 sentences then tensor will be of (4, seq_len, d_model)
 
-        
+        # register the tensor in the buffer of the moduel
+
+        self.register_buffer('pe', pe) # tensor that you want to keep inside the model not as a learned parameter but you want it to be
+        # saved when you save the file of the model. you should register it as a buffer. This way the tensor will be saved in the file
+        # along with the state of the mode.
+
+    # we just need to add this positional encoding to embedding of word inside the sentence.
+
+    # Summary:
+    # The  below code is doing the following:
+    # Adds positional encodings (which are not learned, i.e., fixed) to the input embeddings x.
+    # Passes the result through a dropout layer for regularization.
+    # Returns the modified embeddings after dropout.
+    # Example:
+    # Assume x is a tensor of shape (batch_size=1, seq_len=5, d_model=6) (a sequence of length 5 with 6-dimensional token embeddings).
+    # Positional encodings of shape (1, seq_len=5, d_model=6) are added to x.
+    # Afterward, dropout is applied to the updated x, and the resulting tensor is returned for further layers in the model.
+
+    def forward(self, x): # x here is the input embedding
+        x = x + (self.pe[:, :x.shape[1], :]).requires_grad_(False) # positional embeddings are not learned
+        return self.dropout(x)
+
 
 
 
