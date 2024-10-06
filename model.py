@@ -7,7 +7,7 @@ class InputEmbeddings(nn.Module):
         super()._init__()
         self.d_model = d_model
         self.vocab_size = vocab_size
-        
+
         # in pytorch, given a number, it will provide you with the same vector everytime
         # want to mapping between numbers and vector of size 512 (d_model)
 
@@ -137,7 +137,7 @@ class MultiHeadAttentionBlock(nn.Module):
         super().__init__()
         self.d_model = d_model
         self.h = h
-        assert d_model % h == 0,  # making sure that d_model is divisible by h d_model/h = d_k
+        assert d_model % h == 0  # making sure that d_model is divisible by h d_model/h = d_k
 
         self.d_k = d_model/h
 
