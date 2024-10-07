@@ -9,12 +9,12 @@ else:
     device = "cpu" # Default to CPU if no GPU is available
 
 
-
 # Create tensor (default on CPU)
 tensor = torch.tensor([1, 2, 3])
 
 # Tensor not on GPU
 print(f"Tensor on CPU {tensor, tensor.device}")
+
 
 # Move tensor to GPU (if available)
 tensor_on_gpu = tensor.to(device)
